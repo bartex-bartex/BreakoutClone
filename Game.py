@@ -10,6 +10,6 @@ class Game:
         y, x = screen.getmaxyx() # get terminal wymiary
         screen.resize(y, x)  # resize "virtual" terminal to original terminal
 
-        board = Board(x, y - 1)  # leave space (when last cell is filled, cursor can't move anywhere)
+        board = Board(x, y)  # leave space (when last cell is filled, cursor can't move anywhere)
         board.fill_boundaries(screen)
         screen.getch()
