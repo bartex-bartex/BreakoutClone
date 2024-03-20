@@ -16,15 +16,15 @@ class Sprite:
 
         return (x, y)
 
-    def move_right(self):
-        # TODO - make border check
-        self.previous_direction = self.current_direction
-        self.current_direction = Direction.RIGHT
-        self.x += 1
+    def move_right(self, map_width):
+        if self.x + self.length < map_width - 1:
+            self.previous_direction = self.current_direction
+            self.current_direction = Direction.RIGHT
+            self.x += 1
 
     def move_left(self):
-        # TODO - make border check
-        self.previous_direction = self.current_direction
-        self.current_direction = Direction.LEFT
-        self.x -= 1
+        if self.x != 1:
+            self.previous_direction = self.current_direction
+            self.current_direction = Direction.LEFT
+            self.x -= 1
         
