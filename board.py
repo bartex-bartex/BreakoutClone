@@ -1,5 +1,5 @@
-import curses
 from typing import List
+import curses
 from enums.colors_enum import Color
 from enums.directions_enum import Direction
 from tile import Tile

@@ -1,7 +1,7 @@
-from sprite import Sprite
-from tile import Tile
 from typing import List
 import helpers.math_helper as math_helper
+from sprite import Sprite
+from tile import Tile
 from helpers.collision_checker import is_collision
 from helpers.rectangle import Rectangle
 

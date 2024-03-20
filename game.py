@@ -1,12 +1,11 @@
-import os
+from time import sleep
+import curses
+import helpers.display as display
 from board import Board
 from sprite import Sprite
 from ball import Ball
 from tile import Tile
-import helpers.display as display
 from helpers.rectangle import Rectangle
-import curses
-from time import sleep
 
 class Game:
     WELCOME_MESSAGE = "Press SPACE to begin!"

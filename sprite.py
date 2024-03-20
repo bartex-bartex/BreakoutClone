@@ -1,6 +1,6 @@
 from typing import Final
-from enums.directions_enum import Direction
 import helpers.math_helper as math_helper
+from enums.directions_enum import Direction
 
 INIT_LENGTH: Final[int] = 6  # initially Python doesn't have CONSTANTS, Final from 3.8
 

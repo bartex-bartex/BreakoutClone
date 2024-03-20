@@ -1,5 +1,5 @@
-from game import Game
 from curses import wrapper
+from game import Game
 
 def main():
     game = Game()
