@@ -1,5 +1,5 @@
 from sprite import Sprite
-import math_helper
+import helpers.math_helper as math_helper
 
 class Ball:
     def __init__(self, sprite) -> None:

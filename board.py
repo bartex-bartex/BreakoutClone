@@ -1,6 +1,6 @@
 import curses
-from colors_enum import Color
-from directions_enum import Direction
+from enums.colors_enum import Color
+from enums.directions_enum import Direction
 
 class Board:
     def __init__(self, width, height) -> None:

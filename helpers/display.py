@@ -1,5 +1,5 @@
 # Python way of creating static class is to simply declare methods without class
-import math_helper
+import helpers.math_helper as math_helper
 
 def display_center(text, row, screen, screen_width):
     """

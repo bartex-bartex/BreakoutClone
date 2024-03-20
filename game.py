@@ -2,7 +2,7 @@ import os
 from board import Board
 from sprite import Sprite
 from ball import Ball
-import display
+import helpers.display as display
 import curses
 
 class Game:
