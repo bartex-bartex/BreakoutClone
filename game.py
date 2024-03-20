@@ -23,12 +23,8 @@ class Game:
             key = screen.getch()
 
             if key == curses.KEY_RIGHT:
-                sprite.move_right()
+                sprite.move_right(board.width)
             elif key == curses.KEY_LEFT:
                 sprite.move_left()
             elif key == ord('q'):
                 break
-
-        # testing printing
-        # screen.addstr(y // 2, x // 2, "Got you!")
-        # screen.addstr(y // 2 + 1, x // 2, f"{sprite.x} {sprite.y} {sprite.length}")

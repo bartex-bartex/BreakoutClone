@@ -16,6 +16,7 @@ class Board:
 
     def draw_sprite(self, screen, sprite):
         screen.addstr(sprite.y, sprite.x, "‾" * sprite.length, curses.color_pair(Color.SPRITE.value))
+        # ■□
 
         if sprite.current_direction == Direction.LEFT:
             # remove most right sprite cell
