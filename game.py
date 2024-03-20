@@ -1,6 +1,8 @@
 import os
 from board import Board
 from sprite import Sprite
+from ball import Ball
+import display
 import curses
 
 class Game:
@@ -15,10 +17,14 @@ class Game:
 
         board = Board(x, y)
         sprite = Sprite(x, y)
+        ball = Ball(sprite)
+
+        display.display_center("Press SPACE to begin!", 3, screen, x)
 
         while True:
             board.draw_border(screen)
             board.draw_sprite(screen, sprite)
+            board.draw_ball(screen, ball)
 
             key = screen.getch()
 
