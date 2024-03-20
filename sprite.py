@@ -23,7 +23,7 @@ class Sprite:
             self.x += self.movement_speed
 
     def move_left(self):
-        if self.x != self.movement_speed:
+        if self.x - 1 > self.movement_speed:
             self.current_direction = Direction.LEFT
             self.x -= self.movement_speed
         
