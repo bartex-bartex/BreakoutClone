@@ -8,7 +8,7 @@ class Sprite:
     def __init__(self, map_width, map_height) -> None:
         self.length = INIT_LENGTH
         self.current_direction = None
-        self.previous_direction = None
+        self.movement_speed = 2
         self.x, self.y = self.__calculate_start_position__(map_width, map_height)
 
     def __calculate_start_position__(self, map_width, map_height):
@@ -18,14 +18,12 @@ class Sprite:
         return (x, y)
 
     def move_right(self, map_width):
-        if self.x + self.length < map_width - 1:
-            self.previous_direction = self.current_direction
+        if self.x + self.length < map_width - self.movement_speed:
             self.current_direction = Direction.RIGHT
-            self.x += 1
+            self.x += self.movement_speed
 
     def move_left(self):
-        if self.x != 1:
-            self.previous_direction = self.current_direction
+        if self.x != self.movement_speed:
             self.current_direction = Direction.LEFT
-            self.x -= 1
+            self.x -= self.movement_speed
         

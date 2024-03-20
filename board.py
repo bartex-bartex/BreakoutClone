@@ -20,10 +20,11 @@ class Board:
 
         if sprite.current_direction == Direction.LEFT:
             # remove most right sprite cell
-            screen.addch(sprite.y, sprite.x + sprite.length, ' ')
+            screen.addstr(sprite.y, sprite.x + sprite.length, ' ' * sprite.movement_speed)
         elif sprite.current_direction == Direction.RIGHT:
             # remove most left sprite cell
-            screen.addch(sprite.y, sprite.x - 1, ' ')
+            screen.addstr(sprite.y, sprite.x - sprite.movement_speed, ' ' * sprite.movement_speed)
 
     def draw_ball(self, screen, ball):
+        screen.addstr(ball.y - ball.move_vector[1], ball.x - ball.move_vector[0], " ")
         screen.addstr(ball.y, ball.x, "o")

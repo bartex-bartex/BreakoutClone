@@ -4,6 +4,7 @@ from sprite import Sprite
 from ball import Ball
 import helpers.display as display
 import curses
+from time import sleep
 
 class Game:
     def __init__(self) -> None:
@@ -33,4 +34,21 @@ class Game:
             elif key == curses.KEY_LEFT:
                 sprite.move_left()
             elif key == ord('q'):
+                break
+
+            continue_game = ball.update(sprite, x, y)
+            
+            # TODO - if tiles == 0 -> You win 
+            if continue_game == False:
+                display.display_center('You lose...', int(y / 2), screen, x)
+                display.display_center('Your score is X', int(y / 2) + 1, screen, x)
+                display.display_center("Press 'q' to leave", int(y / 2) + 2, screen, x)
+                break
+
+            sleep(0.1)
+        
+        screen.nodelay(False)
+        while True:
+            key = screen.getch()
+            if key == ord('q'):
                 break
