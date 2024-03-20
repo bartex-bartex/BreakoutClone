@@ -8,30 +8,30 @@ from tile import Tile
 from helpers.rectangle import Rectangle
 
 class Game:
-    WELCOME_MESSAGE = "Press SPACE to begin!"
+    WELCOME_MESSAGE = "Press SPACE to begin!"  # constant variable
 
     def __init__(self) -> None:
-        # os.system('cls' if os.name == 'nt' else 'clear')
         self.score = 0
 
-    def arrange_tiles(self, rows_count, tile_width, tile_height, map_width, map_height, offset_from_top, offset_from_left):
-        self.tiles = []
+    def arrange_tiles(self, rows_count, tile_width, tile_height, space_between_tiles, map_width, map_height, offset_from_left, offset_from_top):
+        tiles = []
         
-        n = int((map_width - 2) // 7)  # number of tiles in row
+        n = int((map_width - 2 - offset_from_left) / (tile_width + space_between_tiles))  # number of tiles in row
         for i in range(rows_count):
-            i_row_tiles = []
+            ith_row_tiles = []
 
             for j in range(n):
-                tile_x = offset_from_left + j * (tile_width + 2)
-                tile_y = offset_from_top + i * (tile_height + 1)
+                tile_x = 1 + offset_from_left + j * (tile_width + 2)
+                tile_y = 1 + offset_from_top + i * (tile_height + 1)
                 
                 if tile_y > map_height - 8:
                     break
 
-                i_row_tiles.append(Tile(Rectangle(tile_x, tile_y, tile_width, tile_height), i))
-            self.tiles.append(i_row_tiles)
+                ith_row_tiles.append(Tile(Rectangle(tile_x, tile_y, tile_width, tile_height), i))
+            tiles.append(ith_row_tiles)
+        return tiles
 
-    def get_tiles_left(self):
+    def get_tiles_left(self) -> int:
         not_broken = 0
         for tile_row in self.tiles:
             for tile in tile_row:
@@ -47,8 +47,8 @@ class Game:
         board = Board(x, y)
         sprite = Sprite(x, y)
         ball = Ball(sprite)
-        self.arrange_tiles(3, 5, 1, x, y, 3, 2)
-        self.init_tiles_count = self.get_tiles_left()
+        self.tiles = self.arrange_tiles(3, 5, 1, 2, x, y, 3, 2)
+        self.start_tiles_count = self.get_tiles_left()
 
         board.draw_border(screen)
         board.draw_ball(screen, ball)
@@ -85,10 +85,11 @@ class Game:
                 display.display_center(f'Your score is {self.score}', int(y / 2) + 1, screen, x)
                 display.display_center("Press 'q' to leave", int(y / 2) + 2, screen, x)
                 break
-            elif self.init_tiles_count == self.score:
+            elif self.start_tiles_count == self.score:
                 display.display_center('You win!', int(y / 2), screen, x)
                 display.display_center(f'Your score is {self.score}', int(y / 2) + 1, screen, x)
                 display.display_center("Press 'q' to leave", int(y / 2) + 2, screen, x)
+                break
 
             sleep(1 / 10)
         
