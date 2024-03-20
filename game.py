@@ -9,6 +9,8 @@ import curses
 from time import sleep
 
 class Game:
+    WELCOME_MESSAGE = "Press SPACE to begin!"
+
     def __init__(self) -> None:
         # os.system('cls' if os.name == 'nt' else 'clear')
         self.score = 0
@@ -50,14 +52,15 @@ class Game:
         self.init_tiles_count = self.get_tiles_left()
 
         board.draw_border(screen)
-        board.draw_sprite(screen, sprite)
         board.draw_ball(screen, ball)
+        board.draw_sprite(screen, sprite)
         board.draw_tiles(self.tiles, screen)
 
-        display.display_center("Press SPACE to begin!", 3, screen, x)
+        display.display_center(self.WELCOME_MESSAGE, 3, screen, x)
         key = None
         while key != ord(' '):
             key = screen.getch()
+        display.display_center(' ' * len(self.WELCOME_MESSAGE), 3, screen, x)
         screen.nodelay(True)  # .getch() doesn't wait for key
 
         while True:
