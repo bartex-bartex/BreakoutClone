@@ -57,18 +57,24 @@ class Game:
         self.begin_tiles_count = self.get_tiles_amount_left()
         return board, sprite, ball
 
-    def __draw_map__(self, screen, board, ball, sprite, tiles):
-        board.draw_border(screen)
+    def __draw_map__(self, screen, board, ball, sprite, tiles = None, redraw_border = False):
         board.draw_ball(screen, ball)
         board.draw_sprite(screen, sprite)
-        board.draw_tiles(tiles, screen)
 
-    def __wait_for_user_start__(self, screen, x):
-        display.display_center(self.WELCOME_MESSAGE, 3, screen, x)
+        # In theory, border should be drawn only at the beginning
+        if redraw_border == True:
+            board.draw_border(screen)
+
+        # None -> nothing to update
+        if tiles != None:
+            board.draw_tiles(tiles, screen)
+
+    def __wait_for_user_start__(self, screen, x, y):
+        display.display_center(self.WELCOME_MESSAGE, y - 2, screen, x)
         key = None
         while key != ord(' '):
             key = screen.getch()
-        display.display_center(' ' * len(self.WELCOME_MESSAGE), 3, screen, x)
+        display.display_center(' ' * len(self.WELCOME_MESSAGE), y - 2, screen, x)
         screen.nodelay(True)  # .getch() doesn't wait for key
 
     def __handle_user_input__(self, screen, board, sprite):
@@ -106,18 +112,23 @@ class Game:
 
         board, sprite, ball = self.__initialize_game_objects__(x, y)
 
-        self.__draw_map__(screen, board, ball, sprite, self.tiles)
+        self.__draw_map__(screen, board, ball, sprite, self.tiles, True)
 
-        self.__wait_for_user_start__(screen, x)
+        self.__wait_for_user_start__(screen, x, y)
 
+        update_tiles = False
         while True:
-            self.__draw_map__(screen, board, ball, sprite, self.tiles)
+            if update_tiles == True:
+                self.__draw_map__(screen, board, ball, sprite, self.tiles)
+            else:
+                self.__draw_map__(screen, board, ball, sprite)
+
 
             quit_game = self.__handle_user_input__(screen, board, sprite)
             if quit_game == True:
                 break
 
-            continue_game = ball.update(sprite, self.tiles, x, y, self)
+            continue_game, update_tiles = ball.update(sprite, self.tiles, x, y, self)
             if continue_game == False:
                 self.__display_lose_message__(screen, x, y)
                 break
