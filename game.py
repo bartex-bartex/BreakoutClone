@@ -1,7 +1,7 @@
 from time import sleep
 from typing import Tuple
 import curses
-import helpers.display as display
+import helpers.helpers as helper
 from board import Board
 from sprite import Sprite
 from ball import Ball
@@ -70,11 +70,11 @@ class Game:
             board.draw_tiles(tiles, screen)
 
     def _wait_for_user_start(self, screen, x, y):
-        display.display_center(self._WELCOME_MESSAGE, y - 2, screen, x)
+        helper.display_center(self._WELCOME_MESSAGE, y - 2, screen, x)
         key = None
         while key != ord(' '):
             key = screen.getch()
-        display.display_center(' ' * len(self._WELCOME_MESSAGE), y - 2, screen, x)
+        helper.display_center(' ' * len(self._WELCOME_MESSAGE), y - 2, screen, x)
         screen.nodelay(True)  # .getch() doesn't wait for key
 
     def _handle_user_input(self, screen, board, sprite):
@@ -91,14 +91,14 @@ class Game:
                 return True
             
     def _display_win_message(self, screen, x, y):
-        display.display_center('You win!', int(y / 2), screen, x)
-        display.display_center(f'Your score is {self.score}', int(y / 2) + 1, screen, x)
-        display.display_center("Press 'q' to leave", int(y / 2) + 2, screen, x)
+        helper.display_center('You win!', int(y / 2), screen, x)
+        helper.display_center(f'Your score is {self.score}', int(y / 2) + 1, screen, x)
+        helper.display_center("Press 'q' to leave", int(y / 2) + 2, screen, x)
 
     def _display_lose_message(self, screen, x, y):
-        display.display_center('You lose...', int(y / 2), screen, x)
-        display.display_center(f'Your score is {self.score}', int(y / 2) + 1, screen, x)
-        display.display_center("Press 'q' to leave", int(y / 2) + 2, screen, x)
+        helper.display_center('You lose...', int(y / 2), screen, x)
+        helper.display_center(f'Your score is {self.score}', int(y / 2) + 1, screen, x)
+        helper.display_center("Press 'q' to leave", int(y / 2) + 2, screen, x)
 
     def _wait_for_user_exit(self, screen):
         screen.nodelay(False)

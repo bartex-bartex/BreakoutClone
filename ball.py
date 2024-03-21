@@ -1,9 +1,8 @@
 from typing import List
 from typing import Tuple
-import helpers.math_helper as math_helper
+import helpers.helpers as helpers
 from sprite import Sprite
 from tile import Tile
-from helpers.collision_checker import is_collision
 from helpers.rectangle import Rectangle
 
 class Ball:
@@ -13,7 +12,7 @@ class Ball:
 
     def _calculate_start_position(self, sprite: Sprite):
         # Based ball position upon sprite position
-        self.x = sprite.x + math_helper.calculate_center(sprite.length, 1)
+        self.x = sprite.x + helpers.calculate_center(sprite.length, 1)
         self.y = sprite.y - 1
 
     def update(self, sprite: Sprite, tiles: List[List[Tile]],  map_width, map_height, game) -> Tuple[bool, bool]:
@@ -26,12 +25,12 @@ class Ball:
             self.move_vector = [self.move_vector[0] * -1, self.move_vector[1]]
         elif next_y == 0:  # check for U boundary collision 
             self.move_vector = [self.move_vector[0], self.move_vector[1] * -1]
-        elif is_collision(next_x, next_y, Rectangle(sprite.x, sprite.y, sprite.length, 1)):  # check - sprite for collision
+        elif helpers.is_collision(next_x, next_y, Rectangle(sprite.x, sprite.y, sprite.length, 1)):  # check - sprite for collision
             self.move_vector = [self.move_vector[0], self.move_vector[1] * -1]
         else:
             for tile_row in tiles:
                 for tile in tile_row:
-                    if tile.is_broken == False and is_collision(next_x, next_y, tile.rect):
+                    if tile.is_broken == False and helpers.is_collision(next_x, next_y, tile.rect):
                         tile.is_broken = True
                         self.move_vector = [self.move_vector[0], self.move_vector[1] * -1]
                         game.score += 1
