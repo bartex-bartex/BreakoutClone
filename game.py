@@ -43,13 +43,13 @@ class Game:
                     not_broken += 1
         return not_broken
 
-    def __curses_setup__(self, screen) -> Tuple[int, int]:
+    def __setup_curses__(self, screen) -> Tuple[int, int]:
         curses.curs_set(False)  # do not show cursor
         y, x = screen.getmaxyx() # get terminal wymiary
         screen.resize(y, x)  # resize "virtual" terminal to original terminal
         return x, y
     
-    def __initialize_objects__(self, x, y):
+    def __initialize_game_objects__(self, x, y):
         board = Board(x, y)
         sprite = Sprite(x, y)
         ball = Ball(sprite)
@@ -63,7 +63,7 @@ class Game:
         board.draw_sprite(screen, sprite)
         board.draw_tiles(tiles, screen)
 
-    def __welcome_user__(self, screen, x):
+    def __wait_for_user_start__(self, screen, x):
         display.display_center(self.WELCOME_MESSAGE, 3, screen, x)
         key = None
         while key != ord(' '):
@@ -94,7 +94,7 @@ class Game:
         display.display_center(f'Your score is {self.score}', int(y / 2) + 1, screen, x)
         display.display_center("Press 'q' to leave", int(y / 2) + 2, screen, x)
 
-    def __ask_for_leave__(self, screen):
+    def __wait_for_user_exit__(self, screen):
         screen.nodelay(False)
         while True:
             key = screen.getch()
@@ -102,13 +102,13 @@ class Game:
                 break
 
     def start(self, screen):
-        x, y = self.__curses_setup__(screen)
+        x, y = self.__setup_curses__(screen)
 
-        board, sprite, ball = self.__initialize_objects__(x, y)
+        board, sprite, ball = self.__initialize_game_objects__(x, y)
 
         self.__draw_map__(screen, board, ball, sprite, self.tiles)
 
-        self.__welcome_user__(screen, x)
+        self.__wait_for_user_start__(screen, x)
 
         while True:
             self.__draw_map__(screen, board, ball, sprite, self.tiles)
@@ -127,6 +127,6 @@ class Game:
 
             sleep(self.FRAME_TIME)
         
-        self.__ask_for_leave__(screen)
+        self.__wait_for_user_exit__(screen)
 
 
