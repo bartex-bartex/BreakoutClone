@@ -8,9 +8,9 @@ class Board:
     def __init__(self, width, height) -> None:
         self.width = width
         self.height = height
-        self.__prepare_colors__()
+        self._prepare_colors()
 
-    def __prepare_colors__(self):
+    def _prepare_colors(self):
         curses.use_default_colors()  # Thanks to that -1 is transparent
         curses.init_pair(Color.SPRITE.value, curses.COLOR_RED, -1)  # Sprite
         curses.init_pair(Color.BALL.value, curses.COLOR_BLUE, -1)  # Ball
@@ -21,13 +21,12 @@ class Board:
 
     def draw_sprite(self, screen, sprite):
         screen.addstr(sprite.y, sprite.x, "█" * sprite.length, curses.color_pair(Color.SPRITE.value))
-        # ■█□
 
         if sprite.current_direction == Direction.LEFT:
-            # remove most right sprite cell
+            # remove most right sprite cells
             screen.addstr(sprite.y, sprite.x + sprite.length, ' ' * sprite.movement_speed)
         elif sprite.current_direction == Direction.RIGHT:
-            # remove most left sprite cell
+            # remove most left sprite cells
             screen.addstr(sprite.y, sprite.x - sprite.movement_speed, ' ' * sprite.movement_speed)
 
     def draw_ball(self, screen, ball):

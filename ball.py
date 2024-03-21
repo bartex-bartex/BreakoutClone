@@ -8,10 +8,10 @@ from helpers.rectangle import Rectangle
 
 class Ball:
     def __init__(self, sprite) -> None:
-        self.__calculate_start_position__(sprite)
+        self._calculate_start_position(sprite)
         self.move_vector = [-1, -1]
 
-    def __calculate_start_position__(self, sprite: Sprite):
+    def _calculate_start_position(self, sprite: Sprite):
         # Based ball position upon sprite position
         self.x = sprite.x + math_helper.calculate_center(sprite.length, 1)
         self.y = sprite.y - 1

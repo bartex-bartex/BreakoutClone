@@ -9,13 +9,13 @@ from tile import Tile
 from helpers.rectangle import Rectangle
 
 class Game:
-    WELCOME_MESSAGE = "Press SPACE to begin!"  # constant variable
-    FRAME_TIME = 1 / 10
+    _WELCOME_MESSAGE = "Press SPACE to begin!"
+    _FRAME_TIME = 1 / 10
 
     def __init__(self) -> None:
         self.score = 0
 
-    def __arrange_tiles__(self, rows_count, tile_width, tile_height, space_between_tiles, map_width, map_height, offset_from_left, offset_from_top):
+    def _arrange_tiles(self, rows_count, tile_width, tile_height, space_between_tiles, map_width, map_height, offset_from_left, offset_from_top):
         tiles = []
         
         n = int((map_width - 2 - offset_from_left) / (tile_width + space_between_tiles))  # number of tiles in row
@@ -43,21 +43,21 @@ class Game:
                     not_broken += 1
         return not_broken
 
-    def __setup_curses__(self, screen) -> Tuple[int, int]:
+    def _setup_curses(self, screen) -> Tuple[int, int]:
         curses.curs_set(False)  # do not show cursor
         y, x = screen.getmaxyx() # get terminal wymiary
         screen.resize(y, x)  # resize "virtual" terminal to original terminal
         return x, y
     
-    def __initialize_game_objects__(self, x, y):
+    def _initialize_game_objects(self, x, y):
         board = Board(x, y)
         sprite = Sprite(x, y)
         ball = Ball(sprite)
-        self.tiles = self.__arrange_tiles__(3, 5, 1, 2, x, y, 3, 2)
+        self.tiles = self._arrange_tiles(3, 5, 1, 2, x, y, 3, 2)
         self.begin_tiles_count = self.get_tiles_amount_left()
         return board, sprite, ball
 
-    def __draw_map__(self, screen, board, ball, sprite, tiles = None, redraw_border = False):
+    def _draw_map(self, screen, board, ball, sprite, tiles = None, redraw_border = False):
         board.draw_ball(screen, ball)
         board.draw_sprite(screen, sprite)
 
@@ -69,15 +69,15 @@ class Game:
         if tiles != None:
             board.draw_tiles(tiles, screen)
 
-    def __wait_for_user_start__(self, screen, x, y):
-        display.display_center(self.WELCOME_MESSAGE, y - 2, screen, x)
+    def _wait_for_user_start(self, screen, x, y):
+        display.display_center(self._WELCOME_MESSAGE, y - 2, screen, x)
         key = None
         while key != ord(' '):
             key = screen.getch()
-        display.display_center(' ' * len(self.WELCOME_MESSAGE), y - 2, screen, x)
+        display.display_center(' ' * len(self._WELCOME_MESSAGE), y - 2, screen, x)
         screen.nodelay(True)  # .getch() doesn't wait for key
 
-    def __handle_user_input__(self, screen, board, sprite):
+    def _handle_user_input(self, screen, board, sprite):
             key = screen.getch()
             curses.flushinp()
 
@@ -90,17 +90,17 @@ class Game:
             elif key == ord('q'):
                 return True
             
-    def __display_win_message__(self, screen, x, y):
+    def _display_win_message(self, screen, x, y):
         display.display_center('You win!', int(y / 2), screen, x)
         display.display_center(f'Your score is {self.score}', int(y / 2) + 1, screen, x)
         display.display_center("Press 'q' to leave", int(y / 2) + 2, screen, x)
 
-    def __display_lose_message__(self, screen, x, y):
+    def _display_lose_message(self, screen, x, y):
         display.display_center('You lose...', int(y / 2), screen, x)
         display.display_center(f'Your score is {self.score}', int(y / 2) + 1, screen, x)
         display.display_center("Press 'q' to leave", int(y / 2) + 2, screen, x)
 
-    def __wait_for_user_exit__(self, screen):
+    def _wait_for_user_exit(self, screen):
         screen.nodelay(False)
         while True:
             key = screen.getch()
@@ -108,36 +108,36 @@ class Game:
                 break
 
     def start(self, screen):
-        x, y = self.__setup_curses__(screen)
+        x, y = self._setup_curses(screen)
 
-        board, sprite, ball = self.__initialize_game_objects__(x, y)
+        board, sprite, ball = self._initialize_game_objects(x, y)
 
-        self.__draw_map__(screen, board, ball, sprite, self.tiles, True)
+        self._draw_map(screen, board, ball, sprite, self.tiles, True)
 
-        self.__wait_for_user_start__(screen, x, y)
+        self._wait_for_user_start(screen, x, y)
 
         update_tiles = False
         while True:
             if update_tiles == True:
-                self.__draw_map__(screen, board, ball, sprite, self.tiles)
+                self._draw_map(screen, board, ball, sprite, self.tiles)
             else:
-                self.__draw_map__(screen, board, ball, sprite)
+                self._draw_map(screen, board, ball, sprite)
 
 
-            quit_game = self.__handle_user_input__(screen, board, sprite)
+            quit_game = self._handle_user_input(screen, board, sprite)
             if quit_game == True:
                 break
 
             continue_game, update_tiles = ball.update(sprite, self.tiles, x, y, self)
             if continue_game == False:
-                self.__display_lose_message__(screen, x, y)
+                self._display_lose_message(screen, x, y)
                 break
             elif self.begin_tiles_count == self.score:
-                self.__display_win_message__(screen, x, y)
+                self._display_win_message(screen, x, y)
                 break
 
-            sleep(self.FRAME_TIME)
+            sleep(self._FRAME_TIME)
         
-        self.__wait_for_user_exit__(screen)
+        self._wait_for_user_exit(screen)
 
 

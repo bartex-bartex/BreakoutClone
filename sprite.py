@@ -1,17 +1,16 @@
-from typing import Final
 import helpers.math_helper as math_helper
 from enums.directions_enum import Direction
 
-INIT_LENGTH: Final[int] = 6  # initially Python doesn't have CONSTANTS, Final from 3.8
-
 class Sprite:
+    _INIT_LENGTH = 6
+
     def __init__(self, map_width, map_height) -> None:
-        self.length = INIT_LENGTH
+        self.length = self._INIT_LENGTH
         self.current_direction = None
         self.movement_speed = 2
-        self.x, self.y = self.__calculate_start_position__(map_width, map_height)
+        self.x, self.y = self._calculate_start_position(map_width, map_height)
 
-    def __calculate_start_position__(self, map_width, map_height):
+    def _calculate_start_position(self, map_width, map_height):
         x = math_helper.calculate_center(map_width, self.length)
         y = map_height - 3
 
